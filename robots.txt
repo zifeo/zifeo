@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://zifeo.com
+
+# Sitemaps
+Sitemap: https://zifeo.com/sitemap.xml
