@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+
+env:
+  PNPM_VERSION: "8.1.0"
+  NODE_VERSION: "19.8.1"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: pnpm/action-setup@v2.2.4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+          run_install: false
+      - name: Install and build
+        working-directory: website
+        env:
+          SITE_URL: https://zifeo.com
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: out
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          cname: zifeo.com
