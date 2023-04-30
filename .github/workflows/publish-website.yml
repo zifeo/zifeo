@@ -6,6 +6,7 @@ on:
 env:
   PNPM_VERSION: "8.1.0"
   NODE_VERSION: "19.8.1"
+  SITE_URL: https://zifeo.com
 
 jobs:
   deploy:
@@ -19,11 +20,7 @@ jobs:
         with:
           version: ${{ env.PNPM_VERSION }}
           run_install: false
-      - name: Install and build
-        working-directory: website
-        env:
-          SITE_URL: https://zifeo.com
-        run: |
+      - run: |
           pnpm install --frozen-lockfile
           pnpm build
       - name: Deploy to GitHub Pages
