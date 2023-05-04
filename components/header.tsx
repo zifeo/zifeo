@@ -1,13 +1,13 @@
-import Image from "next/image";
 import { Platforms } from "./platforms";
 import Link from "next/link";
+import { ExportedImage } from "./img";
 
 export function Header() {
   return (
     <div className="container my-16">
       <div className="flex gap-4 items-center">
         <div className="grow-0">
-          <Image
+          <ExportedImage
             src="/images/teo.jpg"
             alt="Teo's picture"
             width={100}

@@ -71,8 +71,7 @@ table th {
 }
 
 table tbody tr {
-  @apply border-zinc-500;
-  border-top: 1px solid;
+  @apply border-zinc-500 border-t;
 }
 
 ul {

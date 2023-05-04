@@ -1,4 +1,4 @@
-import { platforms } from "../app/data";
+import { platforms } from "../content/data";
 
 export function Platforms() {
   return (

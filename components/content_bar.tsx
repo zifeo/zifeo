@@ -8,11 +8,8 @@ export function ContentBar({ file }: { file: string }) {
           ← <span className="group-hover:underline">Back</span>
         </Link>
       </div>
-      <div className="">
-        <a
-          href={`https://github.com/zifeo/zifeo/edit/main/${file}`}
-          className=""
-        >
+      <div>
+        <a href={`https://github.com/zifeo/zifeo/edit/main/content/${file}`}>
           Edit/improve on Github
         </a>
       </div>

@@ -1,4 +1,8 @@
-import { ArticleParams, loadAllArticles, loadArticle } from "../../data";
+import {
+  ArticleParams,
+  loadAllArticles,
+  loadArticle,
+} from "../../../content/data";
 
 export const dynamic = "force-static";
 

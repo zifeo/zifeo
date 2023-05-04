@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { renderMDX } from "@/components/mdx";
+import { renderMDX } from "@/mdx-components";
 
 // loaders
 
@@ -15,7 +15,7 @@ const load =
   <T>(folder: string) =>
   async (slug: string): Promise<Item<T>> => {
     const source = await fs.readFile(
-      path.join(process.cwd(), folder, encodeURI(`${slug}.mdx`)),
+      path.join(process.cwd(), "content", folder, encodeURI(`${slug}.mdx`)),
       "utf-8"
     );
 
@@ -31,7 +31,7 @@ const load =
 const loadAll =
   <T>(folder: string) =>
   async (): Promise<Item<T>[]> => {
-    const items = await fs.readdir(folder);
+    const items = await fs.readdir(path.join(process.cwd(), "content", folder));
     return Promise.all(
       items
         .filter((a) => a.endsWith(".mdx"))

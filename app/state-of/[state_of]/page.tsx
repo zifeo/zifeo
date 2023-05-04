@@ -1,4 +1,8 @@
-import { StateOfParams, loadAllStateOf, loadStateOf } from "../../data";
+import {
+  StateOfParams,
+  loadAllStateOf,
+  loadStateOf,
+} from "../../../content/data";
 
 export const dynamic = "force-static";
 
@@ -23,7 +27,19 @@ export async function generateMetadata({ params }: StateOfParams) {
 
 export default async function StateOf({ params }: StateOfParams) {
   const { state_of } = params;
-  const { content } = await loadStateOf(state_of);
+  const { frontmatter, content } = await loadStateOf(state_of);
 
-  return <article className="flex flex-col space-y-4">{content}</article>;
+  return (
+    <>
+      <p className="text-sm">
+        <strong>State of</strong> are similar to articles, but periodically
+        refreshed to accumulate knowledge. They are volunarly opinionated and
+        likely incomplete. They provide an overview on a given topic and
+        recommended approaches. Contributions are welcomed as long as they
+        follow the same spirit. Last update was on{" "}
+        <strong>{frontmatter.date}</strong>.
+      </p>
+      <article className="flex flex-col space-y-4">{content}</article>
+    </>
+  );
 }
