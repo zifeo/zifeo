@@ -7,14 +7,14 @@ with TypeGraph(
 ) as g:
     public = policies.public()
 
-    sendinblue = HTTPRuntime("https://api.sendinblue.com")
-    newsletterSignUp = sendinblue.post(
+    brevo = HTTPRuntime("https://api.brevo.com")
+    newsletterSignUp = brevo.post(
         "v3/contacts",
         t.struct(
             {
                 "email": t.email(),
-                "listIds": t.array(t.integer()).set([8]),
-                "header#api-key": t.string().from_secret("SENDINBLUE_KEY"),
+                "listIds": t.array(t.integer()).set([9]),
+                "header#api-key": t.string().from_secret("BREVO_KEY"),
             }
         ),
         t.struct({"id": t.integer().optional()}),

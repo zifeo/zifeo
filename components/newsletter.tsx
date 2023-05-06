@@ -2,14 +2,39 @@
 
 import { useCallback, useState } from "react";
 
+const SIGN_UP_MUT = `
+mutation signUp($email: String!) {
+  newsletterSignUp(email: $email) {
+    id
+  }
+}
+`;
+
 export function Newsletter() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const onSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
+    async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      console.log(email);
-      setMessage("works!");
+
+      const { errors, data } = await fetch("https://api.zifeo.com/zifeo", {
+        method: "POST",
+        body: JSON.stringify({ query: SIGN_UP_MUT, variables: { email } }),
+      }).then((r) => r.json());
+
+      if (errors) {
+        setMessage("Something went wrong, try again later! 🤔");
+        return;
+      }
+
+      const { newsletterSignUp } = data;
+
+      if (newsletterSignUp && newsletterSignUp.id) {
+        setMessage("Successfully signed up! Thank you! 🎉");
+        return;
+      }
+
+      setMessage("Already signed up! Thank you! 🙌");
     },
     [email]
   );

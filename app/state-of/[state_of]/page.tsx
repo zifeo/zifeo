@@ -33,11 +33,10 @@ export default async function StateOf({ params }: StateOfParams) {
     <>
       <p className="text-sm">
         <strong>State of</strong> are similar to articles, but periodically
-        refreshed to accumulate knowledge. They are volunarly opinionated and
-        likely incomplete. They provide an overview on a given topic and
-        recommended approaches. Contributions are welcomed as long as they
-        follow the same spirit. Last update was on{" "}
-        <strong>{frontmatter.date}</strong>.
+        refreshed to accumulate knowledge. They provide opinionated insights and
+        recommended approaches on a specific topic. Contributions are welcomed
+        as long as they follow the same spirit. The last update of this page was
+        on <strong>{frontmatter.date}</strong>.
       </p>
       <article className="flex flex-col space-y-4">{content}</article>
     </>

@@ -1,7 +1,7 @@
 typegates:
   deploy:
     url: https://api.zifeo.com
-    username: op://my.1password.eu/Personal/Typegate Zifeo/password
-    password: op://my.1password.eu/Personal/Typegate Zifeo/password
+    username: "op://my.1password.eu/Personal/Typegate-Zifeo/username"
+    password: "op://my.1password.eu/Personal/Typegate-Zifeo/password"
     env:
-      TG_ZIFEO_SENDINBLUE_KEY: op://my.1password.eu/Personal/Typegate Zifeo/password
+      TG_ZIFEO_BREVO_KEY: op://my.1password.eu/Personal/Typegate-Zifeo/brevo-key

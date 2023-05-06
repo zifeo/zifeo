@@ -74,7 +74,7 @@ export const projects = [
     name: "Metatype",
     url: "https://github.com/metatypedev/metatype",
     headline:
-      "Compose your data, anywhere, and build iterative API blocks with zero-trust and serverless deployment, no matter where and how your (legacy) systems are.",
+      "The low-code API platform for developers. Build modular APIs with zero-trust and serverless deployment, no matter where and how your (legacy) systems are.",
   },
   {
     name: "Whiz",
