@@ -45,7 +45,7 @@ export function Newsletter() {
         <p>{message}</p>
       ) : (
         <form
-          className="inline-block border-zinc-500 border rounded-md overflow-hidden"
+          className="inline-block border-zinc-500 border rounded-md overflow-hidden grid grid-cols-5"
           onSubmit={onSubmit}
         >
           <input
@@ -54,12 +54,12 @@ export function Newsletter() {
             placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 outline-none -z-1"
+            className="p-2 outline-none col-span-3"
           />
           <input
             type="submit"
             value="Subscribe"
-            className="p-2 cursor-pointer bg-zinc-500 text-white rounded-l-md hover:bg-zinc-600 transition duration-200 ease-in-out"
+            className="p-2 cursor-pointer bg-zinc-500 text-white rounded-l-md hover:bg-zinc-600 transition duration-200 ease-in-out col-span-2"
           />
         </form>
       )}

@@ -22,11 +22,11 @@ function Articles({ articles }: { articles: Item<FrontMatter>[] }) {
   return (
     <div className="container my-16 flex flex-col space-y-4">
       <h2>Articles</h2>
-      <dl className="grid grid-cols-4 gap-4">
+      <dl className="grid sm:grid-cols-4">
         {articles.map(({ frontmatter, path }) => (
           <Fragment key={path}>
             <dt className="col-span-1">{frontmatter.date}</dt>
-            <dd className="col-span-3  group">
+            <dd className="col-span-3 group mb-4">
               <Link href={path} className="group-hover:no-underline">
                 <h3 className="group-hover:underline text-base">
                   {frontmatter.title}
@@ -50,7 +50,7 @@ function StateOf({ stateOf }: { stateOf: Item<FrontMatter>[] }) {
           <div className="inline-block rounded-full bg-zinc-500 text-white h-4 w-4 text-center align-baseline text-xs">
             ?
           </div>
-          <p className="hidden group-hover:inline-block group-active:visible ml-2 text-sm">
+          <p className="hidden group-hover:inline-block group-active:inline-block ml-2 text-sm">
             Similar to articles, but periodically refreshed to accumulate
             knowledge.
           </p>
@@ -91,9 +91,9 @@ function Projects() {
 
 export const dynamic = "force-static";
 export const metadata = {
-  title: "Teo's articles",
+  title: "Teo's articles and states of knowledge",
   description:
-    "Articles and state of knowledge about technology, engineering and systems of all kinds authored by Teo Stocco.",
+    "Articles and states of knowledge about technology, engineering and systems of all kinds authored by Teo Stocco.",
 };
 
 export default async function Home() {

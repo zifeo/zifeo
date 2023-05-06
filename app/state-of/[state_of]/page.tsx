@@ -32,11 +32,11 @@ export default async function StateOf({ params }: StateOfParams) {
   return (
     <>
       <p className="text-sm">
-        <strong>State of</strong> are similar to articles, but periodically
-        refreshed to accumulate knowledge. They provide opinionated insights and
-        recommended approaches on a specific topic. Contributions are welcomed
-        as long as they follow the same spirit. The last update of this page was
-        on <strong>{frontmatter.date}</strong>.
+        <strong>States of</strong>knowledge are similar to articles, but
+        periodically refreshed to accumulate knowledge. They provide opinionated
+        insights and recommended approaches on a specific topic. Contributions
+        are welcomed as long as they follow the same spirit. The last update of
+        this page was on <strong>{frontmatter.date}</strong>.
       </p>
       <article className="flex flex-col space-y-4">{content}</article>
     </>
