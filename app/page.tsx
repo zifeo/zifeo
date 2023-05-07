@@ -91,9 +91,9 @@ function Projects() {
 
 export const dynamic = "force-static";
 export const metadata = {
-  title: "Teo's articles and states of knowledge",
+  title: "Teo Stocco",
   description:
-    "Articles and states of knowledge about technology, engineering and systems of all kinds authored by Teo Stocco.",
+    "Hey there, I'm Teo and occasionally write articles & states of knowledge about technology, engineering and systems of all kinds.",
 };
 
 export default async function Home() {
