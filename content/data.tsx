@@ -11,15 +11,34 @@ export interface Item<F> {
   path: string;
 }
 
+export interface FrontMatter {
+  title: string;
+  description: string;
+  date: string;
+  draft?: boolean;
+}
+
 const load =
-  <T>(folder: string) =>
+  <T extends FrontMatter>(folder: string) =>
   async (slug: string): Promise<Item<T>> => {
-    const source = await fs.readFile(
-      path.join(process.cwd(), "content", folder, encodeURI(`${slug}.mdx`)),
-      "utf-8"
+    const prefix = encodeURI(slug);
+    const file = path.join(process.cwd(), "content", folder, `${prefix}.mdx`);
+    const source = await fs.readFile(file, "utf-8");
+    const { content: originalContent, frontmatter } = await renderMDX<T>(
+      source,
+      prefix
     );
 
-    const { content, frontmatter } = await renderMDX<T>(source);
+    const content =
+      frontmatter.draft === true ? (
+        <>
+          <em>This article is a draft and is not published yet.</em>
+          {originalContent}
+        </>
+      ) : (
+        originalContent
+      );
+
     return {
       content,
       frontmatter,
@@ -29,21 +48,14 @@ const load =
   };
 
 const loadAll =
-  <T>(folder: string) =>
-  async (): Promise<Item<T>[]> => {
+  <T extends FrontMatter>(folder: string) =>
+  async ({ onlyPublished = true } = {}): Promise<Item<T>[]> => {
     const items = await fs.readdir(path.join(process.cwd(), "content", folder));
-    return Promise.all(
-      items
-        .filter((a) => a.endsWith(".mdx"))
-        .map((a) => load<T>(folder)(a.replace(/\.mdx$/, "")))
+    const loaded = await Promise.all(
+      items.map((a) => load<T>(folder)(a.replace(/\.mdx$/, "")))
     );
+    return loaded.filter((a) => !onlyPublished || a.frontmatter.draft !== true);
   };
-
-export interface FrontMatter {
-  title: string;
-  description: string;
-  date: string;
-}
 
 // articles
 

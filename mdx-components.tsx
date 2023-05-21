@@ -9,8 +9,9 @@ import rehypeSlug from "rehype-slug";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
-import remarkEmbedImages from "remark-embed-images";
 import { ExportedImage } from "@/components/img";
+import { visit } from "unist-util-visit";
+import { Plugin } from "unified";
 
 const components = {
   h1: (props: any) => <h2 {...props} />,
@@ -20,13 +21,25 @@ const components = {
   img: (props: any) => <ExportedImage {...props} />,
 };
 
-export async function renderMDX<T>(source: string) {
+const remarkImage: Plugin<{ prefix: string }[], any, any> = ({ prefix }) => {
+  return (tree) => {
+    visit(tree, { name: "img" }, (node) => {
+      for (const attr of node.attributes) {
+        if (attr.name === "src" && !attr.value.startsWith("/")) {
+          attr.value = `${prefix}/${attr.value}`;
+        }
+      }
+    });
+  };
+};
+
+export async function renderMDX<T>(source: string, prefix: string) {
   return compileMDX<T>({
     source,
     options: {
       parseFrontmatter: true,
       mdxOptions: {
-        remarkPlugins: [remarkMath, remarkGfm, remarkEmbedImages],
+        remarkPlugins: [remarkMath, remarkGfm, [remarkImage, { prefix }]],
         rehypePlugins: [
           rehypeKatex,
           rehypeSlug,

@@ -7,7 +7,7 @@ import {
 export const dynamic = "force-static";
 
 export async function generateStaticParams() {
-  const articles = await loadAllArticles();
+  const articles = await loadAllArticles({ onlyPublished: false });
 
   return articles.map(({ slug }) => ({
     article: slug,

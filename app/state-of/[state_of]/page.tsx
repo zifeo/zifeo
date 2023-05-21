@@ -7,7 +7,7 @@ import {
 export const dynamic = "force-static";
 
 export async function generateStaticParams() {
-  const stateOf = await loadAllStateOf();
+  const stateOf = await loadAllStateOf({ onlyPublished: false });
 
   return stateOf.map(({ slug }) => ({
     state_of: slug,
