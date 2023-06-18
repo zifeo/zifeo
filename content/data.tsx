@@ -86,18 +86,19 @@ export const projects = [
     name: "Metatype",
     url: "https://github.com/metatypedev/metatype",
     headline:
-      "The low-code API platform for developers. Build modular APIs with zero-trust and serverless deployment, no matter where and how your (legacy) systems are.",
+      "Declarative API development platform. Build serverless backends with zero-trust and less code, no matter where and how your (legacy) systems are.",
   },
   {
     name: "Whiz",
     url: "https://github.com/zifeo/whiz",
-    headline: "Modern DAG/tasks runner for multi-platform monorepos.",
+    headline:
+      "Modern DAG/tasks runner for multi-platform monorepos with live reloading, env management, pipes, and more in a tabbed view.",
   },
   {
     name: "Lade",
     url: "https://github.com/zifeo/lade",
     headline:
-      "Automatically load secrets from your preferred vault as environment variables, and clear them once your shell command is over.",
+      "Automatically load secrets from your preferred vault as environment variables or files, and clear them once your shell command is over.",
   },
   {
     name: "Dataconf",

@@ -23,8 +23,16 @@ body {
 }
 
 @layer base {
-  p {
-    @apply text-zinc-500 font-light text-base leading-7;
+  p,
+  li,
+  td,
+  th,
+  code {
+    @apply text-zinc-700 font-light text-base leading-7;
+  }
+
+  code {
+    @apply text-sm;
   }
 
   h1 {
@@ -48,7 +56,7 @@ body {
   a > h3,
   a > h4,
   a > span {
-    @apply text-black hover:underline underline-offset-4 decoration-2 decoration-zinc-800;
+    @apply text-black font-normal hover:underline underline-offset-4 decoration-2 decoration-zinc-800;
   }
 
   a:has(h1),
@@ -57,8 +65,12 @@ body {
   }
 }
 
+.math-display {
+  @apply overflow-scroll;
+}
+
 table {
-  @apply table-auto border-collapse;
+  @apply table-auto border-collapse block overflow-scroll mx-auto;
 }
 
 table thead {
@@ -78,12 +90,17 @@ ul {
   @apply list-disc list-inside;
 }
 
+ul,
+ol {
+  @apply mt-4;
+}
+
 nav ul {
   @apply list-none;
 }
 
 pre > code {
-  @apply text-sm;
+  @apply text-sm overflow-scroll;
   display: grid;
   counter-reset: line;
 }

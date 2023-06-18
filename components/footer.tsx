@@ -6,7 +6,7 @@ export function Footer() {
       <div className="flex flex-col space-y-4">
         <Platforms />
         <p className="leading-5 text-sm">
-          © Teo Stocco. Text and images are available under the{" "}
+          © Teo Stocco. Texts and images are available under the{" "}
           <a
             href="https://creativecommons.org/licenses/by-sa/4.0/"
             title="Attribution-ShareAlike 4.0 International license"
@@ -14,13 +14,13 @@ export function Footer() {
           >
             Creative Commons Attribution-ShareAlike 4.0 license
           </a>
-          , unless stated otherwise.{" "}
+          , unless stated otherwise. Website's{" "}
           <a
             href="https://github.com/zifeo/zifeo"
             title="Website source code on GitHub"
             className="hover:text-black hover:underline underline-offset-4 decoration-2 decoration-zinc-800"
           >
-            Source code
+            source code
           </a>{" "}
           is available under the{" "}
           <a

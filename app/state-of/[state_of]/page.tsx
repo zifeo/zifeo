@@ -32,7 +32,7 @@ export default async function StateOf({ params }: StateOfParams) {
   return (
     <>
       <p className="text-sm">
-        <strong>States of</strong>knowledge are similar to articles, but
+        <strong>States of</strong> knowledge are similar to articles, but
         periodically refreshed to accumulate knowledge. They provide opinionated
         insights and recommended approaches on a specific topic. Contributions
         are welcomed as long as they follow the same spirit. The last update of
