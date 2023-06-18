@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-<url><loc>https://zifeo.com</loc><lastmod>2023-05-21T14:01:20.280Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://zifeo.com/articles/230415-diversity</loc><lastmod>2023-05-21T14:01:20.280Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://zifeo.com/articles/230429-low-cost-k8s</loc><lastmod>2023-05-21T14:01:20.280Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
-<url><loc>https://zifeo.com/state-of/kubernetes</loc><lastmod>2023-05-21T14:01:20.280Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://zifeo.com</loc><lastmod>2023-06-18T10:29:56.181Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://zifeo.com/articles/230617-low-cost-k8s</loc><lastmod>2023-06-18T10:29:56.181Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://zifeo.com/state-of/kubernetes</loc><lastmod>2023-06-18T10:29:56.181Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
 </urlset>
