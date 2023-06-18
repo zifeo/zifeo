@@ -14,7 +14,7 @@ export function Footer() {
           >
             Creative Commons Attribution-ShareAlike 4.0 license
           </a>
-          , unless stated otherwise. Website's{" "}
+          , unless stated otherwise. Website{"'"}s{" "}
           <a
             href="https://github.com/zifeo/zifeo"
             title="Website source code on GitHub"
