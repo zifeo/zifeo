@@ -1,6 +1,6 @@
 # Hi there 👋
 
-I am currently the Chief Technology Officer at [KiWI](https://conkiwi.com) and a
+I am currently the Chief Technology Officer at [KiWi](https://conkiwi.com) and a
 partner at [Exponent](https://exponent.ch). I previously served as
 [Smood](https://smood.ch)'s CTO and CDO after
 [exiting](https://agefi.com/actualites/entreprises/la-start-up-genevoise-apety-officialise-son-rachat-par-la-societe-de-livraison-romande-smood)
