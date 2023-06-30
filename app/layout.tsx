@@ -3,7 +3,7 @@ import { Nunito } from "next/font/google";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
-const inter = Nunito({
+const nunito = Nunito({
   subsets: ["latin"],
   variable: "--nunito-sans-font",
   display: "swap",
@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white `}>
+      <body className={`${nunito.className} bg-white `}>
         <Header />
         {children}
         <Footer />
