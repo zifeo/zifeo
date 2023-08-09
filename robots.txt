@@ -1,6 +1,6 @@
-# *
-User-agent: *
-Allow: /
+# GPTBot
+User-agent: GPTBot
+Disallow: /
 
 # Host
 Host: https://zifeo.com
