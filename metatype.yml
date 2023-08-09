@@ -1,5 +1,5 @@
 typegates:
-  deploy:
+  prd:
     url: https://api.zifeo.com
     username: "op://my.1password.eu/Personal/Typegate-Zifeo/username"
     password: "op://my.1password.eu/Personal/Typegate-Zifeo/password"
