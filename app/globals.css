@@ -90,9 +90,18 @@ ul {
   @apply list-disc list-inside;
 }
 
+ol {
+  @apply list-decimal list-inside;
+}
+
 ul,
 ol {
   @apply mt-4;
+
+  > li > ul,
+  > li > ol {
+    @apply ml-4 mt-0;
+  }
 }
 
 nav ul {

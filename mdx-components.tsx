@@ -11,7 +11,6 @@ import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import { ExportedImage } from "@/components/img";
 import { visit } from "unist-util-visit";
-import { Plugin } from "unified";
 
 const components = {
   h1: (props: any) => <h2 {...props} />,
@@ -21,8 +20,8 @@ const components = {
   img: (props: any) => <ExportedImage {...props} />,
 };
 
-const remarkImage: Plugin<{ prefix: string }[], any, any> = ({ prefix }) => {
-  return (tree) => {
+const remarkImage: any = ({ prefix }: Record<string, unknown>) => {
+  return (tree: any) => {
     visit(tree, { name: "img" }, (node) => {
       for (const attr of node.attributes) {
         if (attr.name === "src" && !attr.value.startsWith("/")) {
@@ -41,7 +40,7 @@ export async function renderMDX<T>(source: string, prefix: string) {
       mdxOptions: {
         remarkPlugins: [remarkMath, remarkGfm, [remarkImage, { prefix }]],
         rehypePlugins: [
-          rehypeKatex,
+          rehypeKatex as any,
           rehypeSlug,
           [rehypeAutolinkHeadings, { behaviour: "wrap" }],
           [
