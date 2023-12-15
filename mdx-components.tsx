@@ -11,11 +11,36 @@ import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import { ExportedImage } from "@/components/img";
 import { visit } from "unist-util-visit";
+import slugify from "slugify";
+
+function anchorTitle(h: string, hasSlug: boolean) {
+  const Title = `${h}`;
+  return ({ children, ...props }: any) => {
+    if (!hasSlug) {
+      return <Title {...props}>{children}</Title>;
+    }
+
+    const text =
+      typeof children === "string"
+        ? children
+        : children.filter((c: any) => typeof c === "string").join(" ");
+    const slug = slugify(text);
+
+    return (
+      <Title {...props}>
+        {children}{" "}
+        <a id={slug} href={`#${slug}`}>
+          #
+        </a>
+      </Title>
+    );
+  };
+}
 
 const components = {
-  h1: (props: any) => <h2 {...props} />,
-  h2: (props: any) => <h3 {...props} />,
-  h3: (props: any) => <h4 {...props} />,
+  h1: anchorTitle("h2", false),
+  h2: anchorTitle("h3", true),
+  h3: anchorTitle("h4", true),
   // eslint-disable-next-line jsx-a11y/alt-text
   img: (props: any) => <ExportedImage {...props} />,
 };

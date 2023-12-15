@@ -61,7 +61,7 @@ body {
 
   a:has(h1),
   a[href^="#"] {
-    @apply no-underline !important;
+    @apply no-underline text-zinc-400 hover:text-black outline-none !important;
   }
 }
 
