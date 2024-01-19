@@ -12,9 +12,12 @@ import remarkGfm from "remark-gfm";
 import { ExportedImage } from "@/components/img";
 import { visit } from "unist-util-visit";
 import slugify from "slugify";
+import remarkCalloutDirectives from "@microflash/remark-callout-directives";
+import remarkDirective from "remark-directive";
 
 function anchorTitle(h: string, hasSlug: boolean) {
   const Title = `${h}`;
+  // eslint-disable-next-line react/display-name
   return ({ children, ...props }: any) => {
     if (!hasSlug) {
       return <Title {...props}>{children}</Title>;

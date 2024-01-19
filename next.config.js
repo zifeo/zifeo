@@ -3,7 +3,7 @@ const nextConfig = {
   output: "export",
   reactStrictMode: true,
   experimental: {
-    serverComponentsExternalPackages: ["shiki"],
+    //    serverComponentsExternalPackages: ["shiki"],
   },
   images: {
     loader: "custom",

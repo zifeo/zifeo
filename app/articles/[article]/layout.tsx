@@ -3,7 +3,7 @@ import { ArticleParams } from "../../../content/data";
 import { ContentBar } from "@/components/content_bar";
 import { Newsletter } from "@/components/newsletter";
 
-export default function Layout({
+export default async function Layout({
   params,
   children,
 }: {
