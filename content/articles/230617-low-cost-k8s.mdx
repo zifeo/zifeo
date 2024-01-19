@@ -104,7 +104,8 @@ You will now declare a cluster with 1 server and 1 agent nodes in `main.tf`:
 module "rke2" {
   source = "zifeo/rke2/openstack"
   # fixing the version is recommended (follows semantic versioning)
-  # version = "2.0.5"
+  # see the original repository for the latest version and syntax
+  version = "2.0.5"
 
   # must be true for single server cluster or
   # only on the first run for high-availability cluster

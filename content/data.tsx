@@ -54,6 +54,7 @@ const loadAll =
     const loaded = await Promise.all(
       items.map((a) => load<T>(folder)(a.replace(/\.mdx$/, "")))
     );
+    loaded.sort((a, b) => (a.frontmatter.date > b.frontmatter.date ? -1 : 1));
     return loaded.filter((a) => !onlyPublished || a.frontmatter.draft !== true);
   };
 
