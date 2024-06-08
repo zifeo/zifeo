@@ -107,9 +107,10 @@ export const projects = [
       "Simple dataclasses configuration management for Python with hocon/json/yaml/properties/env-vars/dict/cli support.",
   },
   {
-    name: "Python WASI reactor runtime",
-    url: "https://github.com/metatypedev/python-wasi-reactor",
-    headline: "Python WASI reactor runtime.",
+    name: "Ghjk",
+    url: "https://github.com/metatypedev/ghjk",
+    headline:
+      "Ghjk is a programmable runtime manager and an attempt at a successor for asdf.",
   },
   {
     name: "Terraform OpenStack RKE2",
