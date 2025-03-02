@@ -61,7 +61,7 @@ body {
 
   a:has(h1),
   a[href^="#"] {
-    @apply no-underline !important;
+    @apply no-underline text-zinc-400 hover:text-black outline-none !important;
   }
 }
 
@@ -90,9 +90,18 @@ ul {
   @apply list-disc list-inside;
 }
 
+ol {
+  @apply list-decimal list-inside;
+}
+
 ul,
 ol {
   @apply mt-4;
+
+  > li > ul,
+  > li > ol {
+    @apply ml-4 mt-0;
+  }
 }
 
 nav ul {

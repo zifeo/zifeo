@@ -21,7 +21,7 @@ export function Header() {
           <Link href="/">
             <h1>Teo Stocco</h1>
           </Link>
-          <p>Chief of Technology at KiWi</p>
+          <p>Fractional Chief of Technology at KiWi and Exponent</p>
           <Platforms />
         </div>
       </div>

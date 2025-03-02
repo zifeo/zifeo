@@ -76,7 +76,7 @@ function Projects() {
       <ul className="flex flex-col space-y-4 list-none">
         {projects.map(({ name, url, headline }) => (
           <li key={url} className="group">
-            <a href="url" className="group-hover:no-underline">
+            <a href={url} className="group-hover:no-underline">
               <h3 className="inline mr-1 group-hover:underline text-base">
                 {name}
               </h3>
