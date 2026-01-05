@@ -1,0 +1,259 @@
+---
+date: "2026-01-04"
+title: "Bounded MCPs: minimizing noise, maximizing agency"
+description: "How to deploy a secure, project-specific agentic interface for seamless LLM iteration."
+---
+
+# Bounded MCPs: minimizing noise, maximizing agency
+
+While Large Language Models (LLMs) are increasingly capable of writing code[^1], they often struggle with the "last mile" of execution. Setting your LLM agent in auto-run on your terminal is a security and privacy risk, while giving it no access severely limits its utility.
+
+The **Bounded MCP pattern** solves this by treating the Model Context Protocol not as a global utility, but as a project-specific agentic interface. This aligns with the vision of MCP as a "USB-C for AI"[^2], but scoped strictly to your project's context. It creates a secure, version-controlled digital twin of your repository's capabilities.
+
+## B-MCP architecture
+
+The core concept is a self-reloading loop that allows the LLM to modify its own toolset without the developer ever leaving the flow state. This creates a reflexive system that observes and modifies its own boundaries.
+
+### 1. The project-scoped server
+
+Unlike a global MCP server that has access to your entire filesystem, a Bounded MCP lives in your project's `mcp/` directory. It is scoped strictly to the resources of that project—specific Docker containers, Redis keys, or S3 buckets. This follows the principle of least privilege, ensuring that the AI's "worldview" is limited to the current scope.
+
+### 2. The feedback loop
+
+The pattern relies on the automated refresh cycle. By using a runtime like Deno with watch mode, we can create the reflexive feedback loop:
+
+- **Watch Mode**: The MCP server monitors its dependencies.
+- **Auto-Restart**: When your or the LLM writes a new tool, the MCP server updates a timestamp in `.cursor/mcp.json`.
+- **IDE Handshake**: Upon timestamp update, Cursor triggers a reload of the MCP server and the tools (note that you can avoid the "double" restart by switching to server-side events mode instead of stdio).
+
+## Implementation
+
+Here is an example using `fastmcp` and Deno. This setup allows the MCP server to reload and register new tools dynamically.
+
+### `.cursor/mcp.json`
+
+This file is the bridge between your project and the LLM editor. The timestamp is used to trigger a reload of the MCP server and the tools.
+
+```json
+{
+  "mcpServers": {
+    "local-ops": {
+      "command": "deno",
+      "args": ["run", "-A", "--watch", "mcp/main.ts"]
+    }
+  },
+  "_build": 1735929600000
+}
+```
+
+### `deno.json`
+
+This configuration file defines the dependencies and the task to run the server.
+
+```json
+{
+  "tasks": {
+    "db:reset": "echo 'Resetting database...'"
+  },
+  "imports": {
+    "fastmcp": "npm:fastmcp@3.26.7",
+    "zod": "npm:zod@4.3.5",
+    "@std/path": "jsr:@std/path@1.1.14",
+    "@/": "./src/"
+  }
+}
+```
+
+### `mcp/main.ts`
+
+The entry point defines the server and its tools.
+
+```typescript
+import { FastMCP } from "fastmcp";
+import { refreshCursorConfig } from "./utils.ts";
+import * as redis from "./tools/redis.ts";
+import * as deno from "./tools/deno.ts";
+
+// create a server strictly scoped to this project ("local-ops")
+export const server = new FastMCP({
+  name: "local-ops",
+  version: "1.0.0",
+});
+
+// add tools directly using namespace references
+server.addTool(redis.getRedisKeyTool);
+server.addTool(redis.listRedisKeysTool);
+
+// add project-specific Deno tasks
+deno.addDenoTaskTool(
+  server,
+  "db:reset",
+  "Reset the database (use as last resort only)"
+);
+
+if (import.meta.main) {
+  // 1. notify Cursor that config might have changed (refresh timestamp)
+  // 2. start the server
+  await refreshCursorConfig();
+  await server.start({ transportType: "stdio" /* or "httpStream" */ });
+}
+```
+
+### `mcp/tools/deno.ts`
+
+This helper wraps the complexity of invoking shell commands into a safe, typed MCP tool.
+
+```typescript
+import { FastMCP } from "fastmcp";
+import { z } from "zod";
+import { runCommand } from "../utils.ts";
+
+export function addDenoTaskTool(
+  server: FastMCP,
+  taskName: string,
+  description: string
+) {
+  server.addTool({
+    name: `deno_task_${taskName.replace(/:/g, "_")}`,
+    description,
+    parameters: z.object({
+      args: z.array(z.string()).optional(),
+    }),
+    execute: async (params: { args?: string[] }) => {
+      const { args } = params;
+      const { success, output, error } = await runCommand("deno", [
+        "task",
+        taskName,
+        ...(args || []),
+      ]);
+      if (!success) {
+        throw new Error(error || `Task '${taskName}' failed.`);
+      }
+      return output || error || "Task completed successfully.";
+    },
+  });
+}
+```
+
+### `mcp/tools/redis.ts`
+
+This tool file exposes safe, read-only Redis operations to the LLM.
+
+```typescript
+import { z } from "zod";
+// assumes you have a Redis client exported from your project (credentials are loaded the same way as your application code)
+import { redis } from "@/lib/redis.ts";
+
+export const listRedisKeysTool = {
+  name: "list_redis_keys",
+  description: "List keys in Redis matching a pattern (read-only)",
+  parameters: z.object({
+    pattern: z
+      .string()
+      .optional()
+      .default("*")
+      .describe("The pattern to match"),
+  }),
+  execute: async ({ pattern }: { pattern: string }) => {
+    const keys = await redis.keys(pattern);
+    return JSON.stringify(keys);
+  },
+};
+
+export const getRedisKeyTool = {
+  name: "get_redis_key",
+  description: "Get the value of a key from Redis (read-only)",
+  parameters: z.object({
+    key: z.string().describe("The key to retrieve"),
+  }),
+  execute: async ({ key }: { key: string }) => {
+    const value = await redis.get(key);
+    return value ?? "(nil)";
+  },
+};
+```
+
+### `mcp/utils.ts`
+
+This utility handles the handshake with Cursor, shell command execution, and enforces security governance.
+
+```typescript
+import { join } from "@std/path";
+
+// run a system command and return the output or error.
+export async function runCommand(cmd: string, args: string[]) {
+  try {
+    const command = new Deno.Command(cmd, { args });
+    const { stdout, stderr, success } = await command.output();
+    const output = new TextDecoder().decode(stdout);
+    const errorOutput = new TextDecoder().decode(stderr);
+
+    return {
+      success,
+      output: output.trim(),
+      error: errorOutput.trim(),
+    };
+  } catch (error: unknown) {
+    return {
+      success: false,
+      output: "",
+      error: error instanceof Error ? error.message : String(error),
+    };
+  }
+}
+
+export async function refreshCursorConfig() {
+  const mcpConfigPath = "./.cursor/mcp.json";
+
+  try {
+    const content = await Deno.readTextFile(mcpConfigPath);
+    const json = JSON.parse(content);
+    json._build = Date.now();
+    await Deno.writeTextFile(mcpConfigPath, JSON.stringify(json, null, 2));
+  } catch (e) {
+    console.error("Failed to update .cursor/mcp.json", e);
+  }
+
+  const rulePath = "./.cursor/rules/mcp-governance.mdc";
+  const ruleContent = `---
+description: MCP Governance Policy
+globs: mcp/**/*.ts
+---
+# MCP Tool Governance
+
+Any code changes or new files in the \`mcp/\` directory represent a capability expansion for the agent.
+**Requirement:** You must ask for explicit human confirmation before using a newly created or modified tool for the first time.
+**Invitation:** You are invited to add new tools if you identify frequent access patterns for which a tool is currently missing.
+`;
+
+  await Deno.mkdir("./.cursor/rules", { recursive: true });
+  await Deno.writeTextFile(rulePath, ruleContent);
+}
+```
+
+### Why this matters
+
+#### Unified execution interface
+
+Deno tasks (or npm scripts) standardize entry points for both developers and agents. Instead of relying on the LLM to construct shell commands with fragile flags, we expose deterministic tasks (e.g., `deno task db:reset`). This reduces the "context switching" overhead for the developer and eliminates parameter hallucination for the agent.
+
+#### Ingredients for the recipe of success
+
+LLMs are fundamentally prediction engines. When you ask an LLM to interact with a non-standard codebase using only raw shell access, you are asking it to predict an output in an inconsistent environment. The error rate is typically high. The B-MCP pattern provides a structured, constrained environment where the inputs and outputs are known. Once established, the LLM's ability to forecast the correct solution becomes precise rather than a guess against an unknown runtime.
+
+#### Capabilities as versioned code
+
+Agent tools are standard code files. Debugging an agent's inability to parse a log becomes a standard code fix—adding a log or adjusting a regex—rather than an exercise in prompt engineering. This treats agent capabilities as software dependencies that are versioned, reviewed, and tested alongside the application logic. This also enables utilizing the agent to improve the codebase and reuse code from the project itself.
+
+#### Security through existing primitives
+
+By importing application logic directly (e.g., `import { redis } from "@/lib/redis.ts"`), the MCP server inherits existing environment configurations and secret management. There is no need to duplicate credentials, mitigate data leakage risks, or configure a generic database tool. This also allows for fine-grained access control: instead of a blanket "Database Tool," you expose specific, read-only functions (e.g., `getRedisKey`), enforcing the principle of least privilege by design.
+
+## Conclusion
+
+The Bounded MCP pattern moves us from chatting with the LLM and repetitive prompting to capability-as-code. By providing a dedicated, self-improving interface for our code, we allow the LLM to function autonomously without losing the oversight and security required. This approach moves the burden of context from the prompt to the repository, offering a robust way to integrate agents into your workflows.
+
+---
+
+[^1]: Claude Opus 4.5 and Gemini 3 Pro broken [new records](https://www.swebench.com/) as of December 2025.
+[^2]: [MCP Explained… Again](https://dtsbourg.me/en/articles/mcp-explained-again) by Dylan Bourgeois.
