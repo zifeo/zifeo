@@ -1,0 +1,7 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,94933,e=>{"use strict";var t=e.i(80506),i=e.i(778);let n=`
+mutation signUp($email: String!) {
+  newsletterSignUp(email: $email) {
+    id
+  }
+}
+`;function a(){let[e,a]=(0,i.useState)(""),[r,s]=(0,i.useState)(""),l=(0,i.useCallback)(async t=>{t.preventDefault();let{errors:i,data:a}=await fetch("https://api.zifeo.com/zifeo",{method:"POST",body:JSON.stringify({query:n,variables:{email:e}})}).then(e=>e.json());if(i)return void s("Something went wrong, try again later! 🤔");let{newsletterSignUp:r}=a;r&&r.id?s("Successfully signed up! Thank you! 🎉"):s("Already signed up! Thank you! 🙌")},[e]);return(0,t.jsxs)("div",{className:"flex items-center gap-2 flex-col",children:[(0,t.jsx)("p",{children:"Get an email for new updates, nothing more!"}),r?(0,t.jsx)("p",{children:r}):(0,t.jsxs)("form",{className:"border-zinc-500 border rounded-md overflow-hidden grid grid-cols-5",onSubmit:l,children:[(0,t.jsx)("input",{type:"email",required:!0,placeholder:"Your email",value:e,onChange:e=>a(e.target.value),className:"px-2 py-1 outline-none col-span-3"}),(0,t.jsx)("input",{type:"submit",value:"Subscribe",className:"px-2 py-1 cursor-pointer bg-zinc-500 text-white rounded-l-md hover:bg-zinc-700 transition duration-200 ease-in-out col-span-2"})]})]})}e.s(["Newsletter",()=>a])}]);
