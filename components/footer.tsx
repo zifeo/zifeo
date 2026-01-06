@@ -2,8 +2,8 @@ import { Platforms } from "./platforms";
 
 export function Footer() {
   return (
-    <div className="container my-16">
-      <div className="flex flex-col space-y-4">
+    <div className="container mb-16">
+      <div className="flex flex-col gap-4">
         <Platforms />
         <p className="leading-5 text-sm">
           © Teo Stocco. Texts and images are available under the{" "}

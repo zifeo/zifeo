@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: StateOfParams) {
-  const { state_of } = params;
+  const { state_of } = await params;
   const { frontmatter } = await loadStateOf(state_of);
   const { title, description } = frontmatter;
 
@@ -26,11 +26,11 @@ export async function generateMetadata({ params }: StateOfParams) {
 }
 
 export default async function StateOf({ params }: StateOfParams) {
-  const { state_of } = params;
+  const { state_of } = await params;
   const { frontmatter, content } = await loadStateOf(state_of);
 
   return (
-    <>
+    <div className="flex flex-col gap-8">
       <p className="text-sm">
         <strong>States of</strong> knowledge are similar to articles, but
         periodically refreshed to accumulate knowledge. They provide opinionated
@@ -38,7 +38,7 @@ export default async function StateOf({ params }: StateOfParams) {
         are welcomed as long as they follow the same spirit. The last update of
         this page was on <strong>{frontmatter.date}</strong>.
       </p>
-      <article className="flex flex-col space-y-4">{content}</article>
-    </>
+      <article>{content}</article>
+    </div>
   );
 }

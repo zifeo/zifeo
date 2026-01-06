@@ -52,17 +52,21 @@ const loadAll =
   async ({ onlyPublished = true } = {}): Promise<Item<T>[]> => {
     const items = await fs.readdir(path.join(process.cwd(), "content", folder));
     const loaded = await Promise.all(
-      items.map((a) => load<T>(folder)(a.replace(/\.mdx$/, "")))
+      items
+        .filter((a) => a.endsWith(".mdx"))
+        .map((a) => load<T>(folder)(a.replace(/\.mdx$/, "")))
     );
-    return loaded.filter((a) => !onlyPublished || a.frontmatter.draft !== true);
+    return loaded
+      .filter((a) => !onlyPublished || a.frontmatter.draft !== true)
+      .sort((a, b) => b.frontmatter.date.localeCompare(a.frontmatter.date));
   };
 
 // articles
 
 export interface ArticleParams {
-  params: {
+  params: Promise<{
     article: string;
-  };
+  }>;
 }
 
 export const loadArticle = load<FrontMatter>("articles");
@@ -71,9 +75,9 @@ export const loadAllArticles = loadAll<FrontMatter>("articles");
 // state of
 
 export interface StateOfParams {
-  params: {
+  params: Promise<{
     state_of: string;
-  };
+  }>;
 }
 
 export const loadStateOf = load<FrontMatter>("state-of");
@@ -134,9 +138,5 @@ export const platforms = [
   {
     name: "Twitter",
     url: "https://twitter.com/zifeo",
-  },
-  {
-    name: "DevTo",
-    url: "https://dev.to/zifeo",
   },
 ];

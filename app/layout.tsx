@@ -16,7 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${nunito.className} bg-white `}>
+      <body className={`${nunito.className} bg-white flex flex-col gap-16`}>
         <Header />
         {children}
         <Footer />

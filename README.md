@@ -1,7 +1,7 @@
 # Hi there 👋
 
 I am currently a fractional Chief Technology Officer at
-[KiWi](https://conkiwi.com) and [Exponent](https://exponent.ch). I previously
+[Exponent](https://exponent.ch) and [KiWi](https://conkiwi.com). I previously
 served as [Smood](https://smood.ch)'s CTO and CDO after
 [exiting](https://agefi.com/actualites/entreprises/la-start-up-genevoise-apety-officialise-son-rachat-par-la-societe-de-livraison-romande-smood)
 my first start-up in foodtech. Prior to that, I studied neuro, computer & data

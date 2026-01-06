@@ -15,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: ArticleParams) {
-  const { article } = params;
+  const { article } = await params;
   const { frontmatter } = await loadArticle(article);
   const { title, description } = frontmatter;
 
@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: ArticleParams) {
 }
 
 export default async function Article({ params }: ArticleParams) {
-  const { article } = params;
+  const { article } = await params;
   const { content } = await loadArticle(article);
 
-  return <article className="flex flex-col space-y-4">{content}</article>;
+  return <article>{content}</article>;
 }

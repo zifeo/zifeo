@@ -4,7 +4,7 @@ import { ExportedImage } from "./img";
 
 export function Header() {
   return (
-    <div className="container my-16">
+    <div className="container mt-16">
       <div className="flex gap-4 items-center">
         <div className="grow-0">
           <Link href="/">
@@ -17,11 +17,11 @@ export function Header() {
             />
           </Link>
         </div>
-        <div className="grow flex flex-col space-y-1">
+        <div className="grow flex flex-col gap-1">
           <Link href="/">
             <h1>Teo Stocco</h1>
           </Link>
-          <p>Fractional Chief of Technology at KiWi and Exponent</p>
+          <p>Chief Technology Officer</p>
           <Platforms />
         </div>
       </div>

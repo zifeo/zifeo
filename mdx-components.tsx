@@ -41,6 +41,8 @@ const components = {
   h1: anchorTitle("h2", false),
   h2: anchorTitle("h3", true),
   h3: anchorTitle("h4", true),
+  ul: (props: any) => <ul className="list-disc ml-4 mt-4" {...props} />,
+  ol: (props: any) => <ol className="list-decimal ml-4 mt-4" {...props} />,
   // eslint-disable-next-line jsx-a11y/alt-text
   img: (props: any) => <ExportedImage {...props} />,
 };

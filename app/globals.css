@@ -1,28 +1,39 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@source "../components/**/*.{ts,tsx,mdx,md}";
+@source "../app/**/*.{ts,tsx,mdx,md}";
+@source "../content/**/*.{ts,tsx,mdx,md}";
+
+@theme {
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 728px;
 }
 
-/*
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
+  width: 100%;
+
+  @media (min-width: 600px) {
+    max-width: 600px;
   }
-}
-*/
-
-body {
-  color: rgb(var(--foreground-rgb));
+  @media (min-width: 728px) {
+    max-width: 728px;
+  }
 }
 
 @layer base {
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+  }
+
+  body {
+    color: rgb(var(--foreground-rgb));
+    font-family: var(--nunito-sans-font), ui-sans-serif, system-ui, sans-serif;
+  }
+
   p,
   li,
   td,
@@ -35,11 +46,7 @@ body {
     @apply text-sm;
   }
 
-  h1 {
-    @apply text-black font-medium text-xl;
-  }
-
-  h2 {
+  h1, h2 {
     @apply text-black font-medium text-xl;
   }
 
@@ -51,83 +58,91 @@ body {
     @apply text-black font-medium text-base;
   }
 
+  /* Content spacing */
+  article p, .content p {
+    @apply mt-4;
+  }
+
+  article h1, .content h1,
+  article h2, .content h2 {
+    @apply mt-8 mb-4;
+  }
+
+  article h3, .content h3 {
+    @apply mt-6 mb-2;
+  }
+
+  article h4, .content h4 {
+    @apply mt-4 mb-2;
+  }
+
+  article *:first-child, .content *:first-child {
+    @apply mt-0;
+  }
+
   a,
   a > h2,
   a > h3,
   a > h4,
   a > span {
-    @apply text-black font-normal hover:underline underline-offset-4 decoration-2 decoration-zinc-800;
+    @apply text-black font-normal;
+    text-decoration: none;
   }
 
-  a:has(h1),
+  a:hover,
+  a > h2:hover,
+  a > h3:hover,
+  a > h4:hover,
+  a > span:hover {
+    @apply underline underline-offset-4 decoration-2 decoration-zinc-800;
+  }
+
   a[href^="#"] {
-    @apply no-underline text-zinc-400 hover:text-black outline-none !important;
+    @apply !no-underline !text-zinc-400 hover:!text-black !outline-none;
   }
-}
 
-.math-display {
-  @apply overflow-scroll;
-}
-
-table {
-  @apply table-auto border-collapse block overflow-scroll mx-auto;
-}
-
-table thead {
-  @apply text-left uppercase;
-}
-
-table td,
-table th {
-  padding: 0.25rem;
-}
-
-table tbody tr {
-  @apply border-zinc-500 border-t;
-}
-
-ul {
-  @apply list-disc list-inside;
-}
-
-ol {
-  @apply list-decimal list-inside;
-}
-
-ul,
-ol {
-  @apply mt-4;
-
-  > li > ul,
-  > li > ol {
-    @apply ml-4 mt-0;
+  .math-display {
+    @apply overflow-scroll;
   }
-}
 
-nav ul {
-  @apply list-none;
-}
+  table {
+    @apply table-auto border-collapse block overflow-scroll mx-auto my-8;
+  }
 
-pre > code {
-  @apply text-sm overflow-scroll;
-  display: grid;
-  counter-reset: line;
-}
+  table thead {
+    @apply text-left uppercase text-sm font-bold;
+  }
 
-code > .line::before {
-  counter-increment: line;
-  content: counter(line);
-  display: inline-block;
-  width: 1rem;
-  margin-right: 1rem;
-  text-align: right;
-  color: gray;
-}
+  table td,
+  table th {
+    @apply p-2;
+  }
 
-code[data-line-numbers-max-digits="2"] > .line::before {
-  width: 2rem;
-}
+  table tbody tr {
+    @apply border-t border-zinc-300;
+  }
 
-code[data-line-numbers-max-digits="3"] > .line::before {
-  width: 3rem;
+  pre > code {
+    @apply text-sm overflow-scroll;
+    display: grid;
+    counter-reset: line;
+  }
+
+  code > .line::before {
+    counter-increment: line;
+    content: counter(line);
+    display: inline-block;
+    width: 1rem;
+    margin-right: 1rem;
+    text-align: right;
+    color: gray;
+  }
+
+  code[data-line-numbers-max-digits="2"] > .line::before {
+    width: 2rem;
+  }
+
+  code[data-line-numbers-max-digits="3"] > .line::before {
+    width: 3rem;
+  }
 }

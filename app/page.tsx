@@ -12,7 +12,7 @@ import README from "@/README.md";
 
 function About() {
   return (
-    <div className="container my-16 flex flex-col space-y-4">
+    <div className="container content">
       <README />
     </div>
   );
@@ -20,13 +20,13 @@ function About() {
 
 function Articles({ articles }: { articles: Item<FrontMatter>[] }) {
   return (
-    <div className="container my-16 flex flex-col space-y-4">
+    <div className="container flex flex-col gap-4">
       <h2>Articles</h2>
-      <dl className="grid sm:grid-cols-4">
+      <dl className="grid sm:grid-cols-4 gap-y-4">
         {articles.map(({ frontmatter, path }) => (
           <Fragment key={path}>
             <dt className="col-span-1">{frontmatter.date}</dt>
-            <dd className="col-span-3 group mb-4">
+            <dd className="col-span-3 group">
               <Link href={path} className="group-hover:no-underline">
                 <h3 className="group-hover:underline text-base">
                   {frontmatter.title}
@@ -43,8 +43,8 @@ function Articles({ articles }: { articles: Item<FrontMatter>[] }) {
 
 function StateOf({ stateOf }: { stateOf: Item<FrontMatter>[] }) {
   return (
-    <div className="container my-16 flex flex-col space-y-4">
-      <div className="flex space-x-2">
+    <div className="container flex flex-col gap-4">
+      <div className="flex gap-2">
         <h2>State of</h2>
         <div className="group">
           <div className="inline-block rounded-full bg-zinc-500 text-white h-4 w-4 text-center align-baseline text-xs">
@@ -71,9 +71,9 @@ function StateOf({ stateOf }: { stateOf: Item<FrontMatter>[] }) {
 
 function Projects() {
   return (
-    <div className="container my-16 flex flex-col space-y-4">
+    <div className="container flex flex-col gap-4">
       <h2>Open projects</h2>
-      <ul className="flex flex-col space-y-4 list-none">
+      <ul className="flex flex-col gap-4 list-none">
         {projects.map(({ name, url, headline }) => (
           <li key={url} className="group">
             <a href={url} className="group-hover:no-underline">
@@ -101,7 +101,7 @@ export default async function Home() {
   const stateOf = await loadAllStateOf();
 
   return (
-    <main>
+    <main className="flex flex-col gap-16">
       <About />
       <Articles articles={articles} />
       <StateOf stateOf={stateOf} />
