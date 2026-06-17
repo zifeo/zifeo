@@ -1,0 +1,176 @@
+---
+date: "2026-06-14"
+title: The agentic ladder
+description: "AI maturity curve: from conventional help to synthetic workflows."
+---
+
+# The agentic ladder
+
+Most AI discourse tracks progress at the model layer. Parameter counts, context windows, and benchmark scores are constantly tracked. But there is a much more interesting evolution happening right now: the evolution of the user.
+
+As engineers adopt these tools, they do not simply discover better methods. They hit walls of complexity, experience friction, and slowly build the maturity required to operate at the next level. Each step usually arrives after an "aha moment": the moment when a previous workflow stops scaling and the user understands why a new constraint, process, or system is necessary.
+
+Here is an attempt at an agentic ladder based on input, feedback, and situations that I came across over the last few months. It is not a strict sequence, and people mix levels in practice, but most strong developers I know have walked through some version of this progression.
+
+## Level 1: conventional help (chat)
+
+The discovery of AI usually happens through chat interfaces. It is a simple back-and-forth where you ask a question, and the model answers based on its training data. Chat interfaces are great for discovery and quick questions, providing immediate value for isolated problems. They offer a fantastic entry point to explore new concepts, even if they hide the absence of systemic state for larger tasks. There is no external context and no tooling, but it is the perfect way to get started.
+
+**In practice**
+
+- You use web interfaces like ChatGPT, Gemini, or Claude.ai.
+- You manually copy-paste code snippets into the chat window.
+- You treat the AI primarily as a smarter search engine or a quick sounding board.
+- You manually apply the AI's suggestions back into your codebase.
+
+**Relevant resources**
+
+- [ChatGPT](https://chatgpt.com), [Gemini](https://gemini.google.com) or [Claude](https://claude.ai) - The standard entry points for conversational AI.
+
+## Level 2: output control (prompt engineering)
+
+You soon discover that controlling the output requires structuring the input. This is the era of specialization and personas. You learn to build libraries of templates, use XML tags, and separate instructions from data. The win here is consistency: by crafting better prompts, you get much more reliable and tailored answers out of the same models.
+
+**In practice**
+
+- You maintain a library of saved prompts or templates.
+- You spend time structuring information with strict formatting (like XML tags).
+- You assign specific roles or personas to the AI to guide its tone and expertise.
+- You get frustrated when the model forgets the context in the next message.
+
+**Relevant resources**
+
+- [Anthropic's prompt engineering interactive tutorial](https://github.com/anthropics/courses/tree/master/prompt_engineering_interactive_tutorial) - A solid foundation for structuring inputs.
+- [Simon Willison: In defense of prompt engineering](https://simonwillison.net/2023/Feb/21/in-defense-of-prompt-engineering/) - Why structuring text is a crucial skill.
+
+## Level 3: reality grounding (agentic tooling)
+
+You realize that even the best prompt fails without reality grounding. This is the beginning of the agentic journey. You give the AI access to documents and codebases. The AI can read files and verify basic facts based on the injected context. This marks the very beginning of manual iteration on a codebase or document set. The model itself remains fundamentally read-only at this stage, but you gain massive leverage by not having to copy-paste context anymore.
+
+**In practice**
+
+- You heavily rely on `@files` or RAG to inject context.
+- You expect the AI to read your codebase before answering.
+- You manually review and apply the diffs the AI generates.
+- You use dedicated IDEs or tools that have native codebase indexing.
+
+**Relevant resources**
+
+- [Cursor: codebase indexing & context](https://cursor.com/help/customization/context) - Injecting codebase reality into the context window.
+- [Claude Code: file inclusion](https://code.claude.com/docs/en/best-practices#provide-rich-content) - Navigating files directly from the terminal via `CLAUDE.md`.
+- [OpenCode: references](https://opencode.ai/docs/references/#use-references) - Providing context through external directories and Git repositories.
+- [Google NotebookLM](https://blog.google/innovation-and-ai/products/notebooklm/better-research-notebooklm/) - A prime example of an agentic RAG interface for document synthesis.
+
+## Level 4: architectural alignment (plan mode)
+
+The pain of code regressions forces a shift to planning. Instead of asking the AI to "build a feature" and watching it miss some details, you discover the power of separating thinking from execution. You start using the built-in "Architect" or "Plan" modes of your AI tools. These modes are essentially pre-baked blueprints: they force the model to draft a step-by-step plan and ask for human approval before writing any code. Plan is just one mode among several (agent, debug, ask), and a constrained, beginner-friendly ancestor of the spec-driven workflow you will outgrow at Level 8. The major win is avoiding massive regressions by aligning on the architecture first.
+
+**In practice**
+
+- You refuse to let the AI write code immediately for large features.
+- You use the dedicated "Plan" or "Debug" mode of your AI toolset.
+- You review, edit and approve markdown checklists generated by the model before allowing it to execute.
+- You spend more time arguing with the AI about the architecture than about the syntax.
+
+**Relevant resources**
+
+- [Cursor: plan mode](https://cursor.com/blog/plan-mode) - Using built-in planning phases before execution.
+- [Claude Code: plan mode](https://code.claude.com/docs/en/common-workflows#plan-before-editing) - Using `--permission-mode plan` to review changes before they touch disk.
+- [OpenHands: plan mode](https://www.openhands.dev/blog/openhands-product-update---march-2026) - Generating `PLAN.md` to establish architectural blueprints before execution.
+
+## Level 5: external reach (MCP and computer use)
+
+The user discovers the Model Context Protocol (MCP) and external integrations. The job shifts to providing the right API connections rather than just text context. The AI can now query databases, read Jira tickets, or search Slack. However, a major bottleneck emerges: as the tool catalogue grows, the model struggles to pick the right one and starts hallucinating parameters. There is active community discussion on how to handle this, and the emerging consensus is to stop loading the full catalogue into context. Hierarchical tool retrieval or exposing tools as a code sandbox lets the agent discover and compose them on demand, keeping the surface area small.
+
+**In practice**
+
+- You install MCP servers to let your AI interact with external systems.
+- You pick between structured API access (MCP) and unstructured pixel manipulation (Computer Use) based on the task at hand.
+- Your primary bottleneck is tool authorization or tool selection hallucination, not model intelligence.
+- You actively look for ways to batch tool calls or expose them as code to save tokens.
+
+**Relevant resources**
+
+- [Cursor: MCP support](https://cursor.com/docs/mcp) - Connecting external tools directly in the IDE.
+- [Claude Code: MCP](https://docs.anthropic.com/en/docs/claude-code/mcp) - Using MCP servers via the CLI.
+- [OpenHands: MCP support](https://docs.all-hands.dev/openhands/usage/cli/mcp-servers) - Connecting the agent to external data sources.
+- [Cloudflare: Code Mode for MCP](https://blog.cloudflare.com/code-mode/) - Converting MCP tools into a programming language API.
+- [Anthropic: building with computer use](https://docs.anthropic.com/en/docs/build-with-claude/computer-use) - GUI automation as a fallback.
+
+## Level 6: institutional memory (skills and rules)
+
+Connecting tools is not enough if the AI does not know the project's conventions. The user stops prompting the AI repeatedly and starts building a library of standard operating procedures. By creating rules, `SKILL.md`, or `AGENTS.md` files, the AI automatically knows the project's standards. This is also the stage where you start exploring extended memory beyond the immediate context window, instructing the AI to maintain its own local logs. Individual knowledge turns into an institutional asset, drastically reducing the friction of starting new tasks.
+
+**In practice**
+
+- You meticulously organize your rules, `SKILL.md`, or `AGENTS.md` files.
+- You package repetitive workflows into custom skills.
+- You treat the AI like a system that needs specific operating procedures rather than a human reading a handbook.
+- You spend time writing meta-prompts that guide how the AI should behave in your specific repository.
+- You instruct the AI to document its own findings and decisions, acting as an extended local memory.
+
+**Relevant resources**
+
+- [Cursor: skills](https://cursor.com/docs/skills) - Creating `SKILL.md` files for reusable workflows.
+- [Claude Code skills](https://docs.anthropic.com/en/docs/claude-code/skills) - Creating `SKILL.md` files for reusable workflows.
+- [OpenHands micro-agents](https://docs.all-hands.dev/modules/usage/prompting/microagents-repo) - Defining specialized prompts as configuration files.
+
+## Level 7: parallel delegation (sub-agents)
+
+With project conventions codified into rules, you are no longer limited to sequential, manual tasks. You learn when to spawn specialized sub-agents for specific, parallel tasks. While there are interesting approaches to mimicking human organizational structures with AI, those are not the topic of this ladder. Instead, the focus is on managing a workspace with ephemeral worker agents to achieve true parallelization. This allows for concurrent research, background coding tasks, and adversarial reviews. However, you quickly hit the wall of context drift: launching parallel tasks is easy, but merging their outputs and resolving architectural conflicts becomes your primary bottleneck.
+
+**In practice**
+
+- You spawn background agents to research or code while you keep working.
+- You run adversarial reviews, one model verifying another's output.
+- You act as a router, synthesizing agent outputs while watching your token budget.
+- You spend significant time resolving context drift and merging parallel changes back into a single source of truth.
+
+**Relevant resources**
+
+- [Cursor: sub-agents](https://cursor.com/docs/subagents) - Spawning background agents.
+- [Claude Code: subagents](https://docs.anthropic.com/en/docs/claude-code/common-workflows#delegate-research-to-subagents) - Delegating focused tasks to isolated subagents.
+- [OpenHands: agent delegation](https://docs.openhands.dev/sdk/guides/agent-delegation) - Enabling parallel task execution by delegating work to multiple sub-agents.
+
+## Level 8: autonomous convergence (loops and alignment)
+
+Managing multiple agents quickly reveals a new challenge: keeping them on track and preventing infinite loops. Your primary job shifts to alignment, ensuring exact shared understanding before an autonomous loop starts. This is where **Spec-Driven Development** matures: instead of leaning on the LLM's built-in planning modes, you define the goal, the acceptance criteria, and how success will be verified. Crucially, you realize that handing a spec directly to an autonomous loop is a recipe for runaway token bills. The "aha moment" is the introduction of a bilateral "pre-flight check" or sprint contract: the agent must reformulate the spec, propose its plan, and get your explicit sign-off before executing. The AI then runs in a loop, correcting itself via verified execution in a stable, testable environment.
+
+**In practice**
+
+- You define a goal, acceptance criteria, and a verification strategy instead of step-by-step instructions.
+- You force a bilateral "pre-flight check" where the agent must explain its understanding and plan before starting the loop.
+- You shape how the agent reaches the goal: divide and conquer, or a clear path to convergence.
+- You force mutual understanding before execution ("ask questions until we share the same ground", "be objective").
+- You monitor token budgets, leverage prompt caching, and let the environment bound execution.
+
+**Relevant resources**
+
+- [Spec-driven development with AI coding agents](https://amux.io/guides/spec-driven-development/) - A deep dive into writing specs before code.
+- [GitHub `spec-kit`](https://github.com/github/spec-kit) - Microsoft's open-source toolkit for operationalizing SDD.
+- [Karpathy's autoresearch](https://github.com/karpathy/autoresearch) - An autonomous loop that proposes a change, runs a time-boxed experiment, and keeps it only if a single metric improves.
+
+## Level 9: deterministic harness (full harness)
+
+The final level is pure platform engineering. You focus entirely on the "harness", the ultimate deterministic sandbox. It provides exactly the right tools, the right files, and the right environment variables. Key technical points include strict context isolation, adversarial reviews, Eval-Driven Development (EDD), secret management, and configuration as law. You no longer solve the problem directly; you build and secure the machine that solves the problem.
+
+**In practice**
+
+- You trust your deterministic infrastructure and evaluation datasets (Evals), not the AI's intuition.
+- You use hooks to inject secrets securely into the sandbox.
+- You configure `permissions.json` to govern what the agent can and cannot do.
+- You run LLM-as-a-judge pipelines and monitor execution with strict SLOs and telemetry.
+
+**Relevant resources**
+
+- [Bounded model context protocol](/articles/260104-bounded-model-context-protocol) - Securing and bounding agentic contexts.
+- [lade (github.com/zifeo/lade)](https://github.com/zifeo/lade) - Secret management and hooks for secure AI harnesses.
+- [Cursor: `permissions.json`](https://cursor.com/docs/reference/permissions) - Configuring MCP and terminal command allowlists.
+- [Claude Code: permissions](https://code.claude.com/docs/en/permissions) - Managing tool access and security boundaries for local agents.
+- [OpenHands Docker sandbox](https://docs.all-hands.dev/modules/usage/architecture/runtime) - Isolated runtime environments for agent execution.
+
+## Conclusion
+
+The AI landscape evolves at breakneck speed, but this ladder represents a common path many engineers are currently walking. This does not mean it is the only, or even the best, way to learn. Everyone advances at their own pace based on their constraints, tooling, and needs. Not all levels are equivalent, and many engineers plateau, often reasonably, around grounding and planning. But the upper levels are not experimental territory: they are what extracting maximum leverage actually requires. If your mandate is platform engineering, making an entire team of developers more productive, the harness is not a luxury, it is the job.
+
+However, it highlights a crucial reality: mastering agentic workflows is an entirely new engineering domain. It is time-consuming and requires serious investment. Simply picking it up on the job between tickets is rarely enough. Each level is usually earned through experience: a workflow breaks, the failure becomes obvious, and only then does the next practice feel necessary rather than decorative. Reaching the upper levels of this ladder demands deliberate practice, much like going back to school and doing the homework. The leverage, however, is well worth the effort.

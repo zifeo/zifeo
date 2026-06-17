@@ -1,0 +1,9 @@
+---
+description: Typography and casing rules for all text and articles
+globs: *.mdx
+---
+
+# Typography and casing
+
+- **No title case:** Headings and titles must only capitalize the first letter of the first word. All other words must be lowercase unless they are proper nouns (e.g., "The agentic career ladder", not "The Agentic Career Ladder").
+- **No long dashes:** Never use em dashes (—) or en dashes (–) to separate clauses in text. Use commas instead.

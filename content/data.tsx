@@ -53,7 +53,7 @@ const loadAll =
     const items = await fs.readdir(path.join(process.cwd(), "content", folder));
     const loaded = await Promise.all(
       items
-        .filter((a) => a.endsWith(".mdx"))
+        .filter((a) => a.endsWith(".mdx") && !a.endsWith(".outline.mdx"))
         .map((a) => load<T>(folder)(a.replace(/\.mdx$/, "")))
     );
     return loaded
